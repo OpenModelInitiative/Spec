@@ -1,10 +1,11 @@
 package v1
 
 import (
-	"bytes"
+	"fmt"
 	"strings"
 )
 
+// Architecture is a model kind
 const (
 	ArchitectureInvalid Architecture = iota
 	ArchitectureAlbert
@@ -209,6 +210,7 @@ const (
 var (
 	// ArchitectureNames is a map of Architecture to string.
 	ArchitectureNames = map[Architecture]string{
+		ArchitectureInvalid:                     "Invalid",
 		ArchitectureAlbert:                      "Albert",
 		ArchitectureAlign:                       "Align",
 		ArchitectureAltclip:                     "AltCLIP",
@@ -416,8 +418,8 @@ func (a Architecture) String() string {
 
 // MarshalJSON outputs the Architecture as a json.
 func (a Architecture) MarshalJSON() ([]byte, error) {
-	if !a.Validate() {
-		return []byte(`""`), nil
+	if !a.Valid() {
+		return nil, fmt.Errorf("invalid architecture")
 	}
 
 	return []byte(`"` + a.String() + `"`), nil
@@ -425,27 +427,30 @@ func (a Architecture) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON parses the Architecture from json.
 func (a *Architecture) UnmarshalJSON(data []byte) error {
-	str := string(bytes.Trim(data, `"`))
-	if architecture := ParseArchitecture(str); architecture.Validate() {
-		*a = architecture
+	architecture, err := ParseArchitecture(string(data))
+	if err != nil {
+		return err
 	}
+
+	*a = architecture
 
 	return nil
 }
 
-// Validate returns true if the Architecture is valid.
-func (a Architecture) Validate() bool {
+// Valid returns true if the Architecture is valid.
+func (a Architecture) Valid() bool {
 	return a != ArchitectureInvalid
 }
 
 // ParseArchitecture parses the Architecture string.
-func ParseArchitecture(value string) Architecture {
-	value = strings.ToLower(value)
-	for k, v := range ArchitectureNames {
-		if strings.ToLower(v) == value {
-			return k
+func ParseArchitecture(value string) (Architecture, error) {
+	v := strings.ToLower(strings.Trim(value, `"`))
+
+	for k, n := range ArchitectureNames {
+		if v == strings.ToLower(n) {
+			return k, nil
 		}
 	}
 
-	return ArchitectureInvalid
+	return ArchitectureInvalid, fmt.Errorf("invalid architecture: %s", value)
 }

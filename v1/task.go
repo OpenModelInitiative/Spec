@@ -1,10 +1,11 @@
 package v1
 
 import (
-	"bytes"
+	"fmt"
 	"strings"
 )
 
+// Task is a model task.
 const (
 	TaskInvalid Task = iota //
 	TaskTextClassification
@@ -46,6 +47,7 @@ const (
 var (
 	// TaskNames is a map of Task names.
 	TaskNames = map[Task]string{
+		TaskInvalid:                     "invalid",
 		TaskTextClassification:          "text-classification",
 		TaskTextZeroShotClassification:  "text-zero-shot-classification",
 		TaskTextTokenClassification:     "text-token-classification",
@@ -84,6 +86,7 @@ var (
 
 	// TaskDescriptions is a map of Task descriptions.
 	TaskDescriptions = map[Task]string{
+		TaskInvalid:                     "Invalid task.",
 		TaskTextClassification:          "Text classification is the task of assigning a set of predefined categories to open-ended text.",
 		TaskTextZeroShotClassification:  "Zero-shot classification is the task of predicting a predefined category for a piece of text without any training examples.",
 		TaskTextTokenClassification:     "Token classification is the task of assigning a label to each token in a sequence.",
@@ -133,8 +136,8 @@ func (t Task) Description() string {
 
 // MarshalJSON outputs the Task as a json.
 func (t Task) MarshalJSON() ([]byte, error) {
-	if !t.Validate() {
-		return []byte(`""`), nil
+	if !t.Valid() {
+		return nil, fmt.Errorf("invalid task")
 	}
 
 	return []byte(`"` + t.String() + `"`), nil
@@ -142,27 +145,30 @@ func (t Task) MarshalJSON() ([]byte, error) {
 
 // UnmarshalJSON parses the Task from json.
 func (t *Task) UnmarshalJSON(data []byte) error {
-	str := string(bytes.Trim(data, `"`))
-	if task := ParseTask(str); task.Validate() {
-		*t = task
+	task, err := ParseTask(string(data))
+	if err != nil {
+		return err
 	}
+
+	*t = task
 
 	return nil
 }
 
-// Validate returns true if the Task is valid.
-func (t Task) Validate() bool {
+// Valid returns true if the Task is valid.
+func (t Task) Valid() bool {
 	return t != TaskInvalid
 }
 
 // ParseTask parses the Task string.
-func ParseTask(value string) Task {
-	value = strings.ToLower(value)
-	for k, v := range TaskNames {
-		if v == value {
-			return k
+func ParseTask(value string) (Task, error) {
+	v := strings.ToLower(strings.Trim(value, `"`))
+
+	for k, n := range TaskNames {
+		if v == n {
+			return k, nil
 		}
 	}
 
-	return TaskInvalid
+	return TaskInvalid, fmt.Errorf("invalid task: %s", value)
 }
