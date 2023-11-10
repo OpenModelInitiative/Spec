@@ -104,8 +104,7 @@ type (
 	DatasetSpec struct {
 		ObjectMeta `json:",inline"`
 		// History describes the history of each assembler step.
-		History []History `json:"history"`
-
+		History   []History  `json:"history"`
 		Tasks     []Task     `json:"tasks"`
 		Languages []Language `json:"languages"`
 		Layers    []Layer    `json:"layers"`
@@ -122,11 +121,10 @@ type (
 	TrainerSpec struct {
 		ObjectMeta `json:",inline"`
 		// History describes the history of each assembler step.
-		History []History `json:"history"`
-
-		Datasets []string `json:"datasets"`
-		Layers   []Layer  `json:"layers"`
-		Run      Run      `json:"run"`
+		History  []History `json:"history"`
+		Datasets []string  `json:"datasets"`
+		Layers   []Layer   `json:"layers"`
+		Run      Run       `json:"run"`
 	}
 
 	// Model represents a model.
@@ -140,8 +138,7 @@ type (
 	ModelSpec struct {
 		ObjectMeta `json:",inline"`
 		// History describes the history of each assembler step.
-		History []History `json:"history"`
-
+		History      []History               `json:"history"`
 		Architecture Architecture            `json:"architecture"`
 		Tasks        []Task                  `json:"tasks"`
 		Languages    []Language              `json:"languages"`

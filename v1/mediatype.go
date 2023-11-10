@@ -1,15 +1,15 @@
 package v1
 
-// MediaType specifies the media type for a config.
+// MediaType specifies the media type for a spec.
 const (
-	MediaTypeDatasetAssemblerConfig   = "application/vnd.omi.dataset.assembler.config.v1+json"
-	MediaTypeTrainerAssemblerConfig   = "application/vnd.omi.trainer.assembler.config.v1+json"
-	MediaTypeModelAssemblerConfig     = "application/vnd.omi.model.assembler.config.v1+json"
-	MediaTypeInferenceAssemblerConfig = "application/vnd.omi.inference.assembler.config.v1+json"
-	MediaTypeDatasetConfig            = "application/vnd.omi.dataset.config.v1+json"
-	MediaTypeTrainerConfig            = "application/vnd.omi.trainer.config.v1+json"
-	MediaTypeModelConfig              = "application/vnd.omi.model.config.v1+json"
-	MediaTypeInferenceConfig          = "application/vnd.omi.inference.config.v1+json"
+	MediaTypeDatasetAssemblerSpec   = "application/vnd.omi.dataset.assembler.spec.v1+yaml"
+	MediaTypeTrainerAssemblerSpec   = "application/vnd.omi.trainer.assembler.spec.v1+yaml"
+	MediaTypeModelAssemblerSpec     = "application/vnd.omi.model.assembler.spec.v1+yaml"
+	MediaTypeInferenceAssemblerSpec = "application/vnd.omi.inference.assembler.spec.v1+yaml"
+	MediaTypeDatasetSpec            = "application/vnd.omi.dataset.spec.v1+yaml"
+	MediaTypeTrainerSpec            = "application/vnd.omi.trainer.spec.v1+yaml"
+	MediaTypeModelSpec              = "application/vnd.omi.model.spec.v1+yaml"
+	MediaTypeInferenceSpec          = "application/vnd.omi.inference.spec.v1+yaml"
 )
 
 // MediaType specifies the media type for a dataset assembler layer.
