@@ -189,7 +189,6 @@ type (
 		Name        string        `json:"name"`
 		Description string        `json:"description"`
 		MediaType   string        `json:"media_type"`
-		Artifact    *url.URL      `json:"artifact"`
 		Size        uint64        `json:"size"`
 		Digest      digest.Digest `json:"digest"`
 	}
