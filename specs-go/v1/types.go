@@ -54,9 +54,12 @@ type (
 
 	// TrainerAssemblerSpec represents a model trainer specification.
 	TrainerAssemblerSpec struct {
-		ObjectMeta `json:",inline"`
-		Layers     []Layer `json:"layers"`
-		Run        Run     `json:"run"`
+		ObjectMeta   `json:",inline"`
+		Architecture Architecture `json:"architecture"`
+		Tasks        []Task       `json:"tasks"`
+		Languages    []Language   `json:"languages"`
+		Layers       []Layer      `json:"layers"`
+		Run          Run          `json:"run"`
 	}
 
 	// ModelAssembler represents a model assembler.
@@ -72,8 +75,6 @@ type (
 		Architecture Architecture `json:"architecture"`
 		Tasks        []Task       `json:"tasks"`
 		Languages    []Language   `json:"languages"`
-		Datasets     []string     `json:"datasets"`
-		Trainer      string       `json:"trainer"`
 		Layers       []Layer      `json:"layers"`
 		Run          Run          `json:"run"`
 	}
@@ -87,10 +88,10 @@ type (
 
 	// InferenceAssemblerSpec represents a model specification.
 	InferenceAssemblerSpec struct {
-		ObjectMeta `json:",inline"`
-		Model      string  `json:"model"`
-		Layers     []Layer `json:"layers"`
-		Run        Run     `json:"run"`
+		ObjectMeta    `json:",inline"`
+		Architectures []Architecture `json:"architectures"`
+		Layers        []Layer        `json:"layers"`
+		Run           Run            `json:"run"`
 	}
 
 	// Dataset represents a model dataset.
@@ -121,10 +122,12 @@ type (
 	TrainerSpec struct {
 		ObjectMeta `json:",inline"`
 		// History describes the history of each assembler step.
-		History  []History `json:"history"`
-		Datasets []string  `json:"datasets"`
-		Layers   []Layer   `json:"layers"`
-		Run      Run       `json:"run"`
+		History      []History    `json:"history"`
+		Architecture Architecture `json:"architecture"`
+		Tasks        []Task       `json:"tasks"`
+		Languages    []Language   `json:"languages"`
+		Layers       []Layer      `json:"layers"`
+		Run          Run          `json:"run"`
 	}
 
 	// Model represents a model.
@@ -142,7 +145,6 @@ type (
 		Architecture Architecture            `json:"architecture"`
 		Tasks        []Task                  `json:"tasks"`
 		Languages    []Language              `json:"languages"`
-		Inference    string                  `json:"inference"`
 		Variants     map[string]ModelVariant `json:"variants"`
 	}
 
@@ -170,10 +172,10 @@ type (
 	InferenceSpec struct {
 		ObjectMeta `json:",inline"`
 		// History describes the history of each assembler step.
-		History []History `json:"history"`
-
-		Run      Run                `json:"run"`
-		Variants []InferenceVariant `json:"variants"`
+		History       []History          `json:"history"`
+		Architectures []Architecture     `json:"architectures"`
+		Variants      []InferenceVariant `json:"variants"`
+		Run           Run                `json:"run"`
 	}
 
 	// InferenceVariant represents a model inference variant.
