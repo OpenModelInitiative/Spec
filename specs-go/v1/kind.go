@@ -39,7 +39,7 @@ func (k Kind) String() string {
 // MarshalJSON outputs the Kind as a json.
 func (k Kind) MarshalJSON() ([]byte, error) {
 	if !k.Valid() {
-		return nil, nil
+		return nil, fmt.Errorf("invalid kind")
 	}
 
 	return []byte(`"` + k.String() + `"`), nil

@@ -8,6 +8,7 @@ import (
 )
 
 type (
+	// Named represents a named object.
 	Named struct {
 		Name        string `json:"name"`
 		Description string `json:"description"`

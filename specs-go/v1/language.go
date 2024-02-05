@@ -589,7 +589,7 @@ func (l Language) Code() string {
 // MarshalJSON outputs the Language as a json.
 func (l Language) MarshalJSON() ([]byte, error) {
 	if !l.Valid() {
-		return nil, nil
+		return nil, fmt.Errorf("invalid language")
 	}
 
 	return []byte(`"` + l.String() + `"`), nil

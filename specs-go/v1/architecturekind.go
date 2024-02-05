@@ -419,7 +419,7 @@ func (ak ArchitectureKind) String() string {
 // MarshalJSON outputs the ArchitectureKind as a json.
 func (ak ArchitectureKind) MarshalJSON() ([]byte, error) {
 	if !ak.Valid() {
-		return nil, fmt.Errorf("invalid ArchitectureKind")
+		return nil, fmt.Errorf("invalid architecture kind")
 	}
 
 	return []byte(`"` + ak.String() + `"`), nil

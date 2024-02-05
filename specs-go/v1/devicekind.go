@@ -49,7 +49,7 @@ func (dk DeviceKind) Description() string {
 // MarshalJSON outputs the DeviceKind as a json.
 func (dk DeviceKind) MarshalJSON() ([]byte, error) {
 	if !dk.Valid() {
-		return nil, nil
+		return nil, fmt.Errorf("invalid device kind")
 	}
 
 	return []byte(`"` + dk.String() + `"`), nil
