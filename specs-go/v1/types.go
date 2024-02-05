@@ -277,6 +277,7 @@ type (
 	// DataKind is a data kind of tensor (e.g. F32, I16, etc.)
 	DataKind uint8
 
+	// DeviceKind is a device kind (e.g. cpu, gpu, etc.)
 	DeviceKind uint8
 
 	// Kind is a object kind (e.g. model, inference, etc.)
