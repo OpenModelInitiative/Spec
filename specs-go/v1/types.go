@@ -8,6 +8,11 @@ import (
 )
 
 type (
+	Named struct {
+		Name        string `json:"name"`
+		Description string `json:"description"`
+	}
+
 	// ObjectKind represents the object version and kind.
 	ObjectKind struct {
 		Version string `json:"version"`
@@ -16,12 +21,11 @@ type (
 
 	// ObjectMeta represents the object metadata.
 	ObjectMeta struct {
-		Name        string            `json:"name"`
-		Description string            `json:"description"`
-		Labels      map[string]string `json:"labels"`
-		Author      string            `json:"author"`
-		Url         *url.URL          `json:"url"`
-		Licence     string            `json:"licence"`
+		Named   `json:",inline"`
+		Labels  map[string]string `json:"labels"`
+		Author  string            `json:"author"`
+		Url     *url.URL          `json:"url"`
+		Licence string            `json:"licence"`
 	}
 
 	// ObjectStatus represents the object status.
@@ -88,10 +92,10 @@ type (
 
 	// InferenceAssemblerSpec represents a model specification.
 	InferenceAssemblerSpec struct {
-		ObjectMeta    `json:",inline"`
-		Architectures []Architecture `json:"architectures"`
-		Layers        []Layer        `json:"layers"`
-		Run           Run            `json:"run"`
+		ObjectMeta   `json:",inline"`
+		Architecture Architecture `json:"architecture"`
+		Layers       []Layer      `json:"layers"`
+		Run          Run          `json:"run"`
 	}
 
 	// Dataset represents a model dataset.
@@ -150,15 +154,15 @@ type (
 
 	// ModelVariant represents a model variant.
 	ModelVariant struct {
-		DType         DType   `json:"dtype"`
-		ParamsSize    uint64  `json:"params_size"`
-		VocabSize     uint32  `json:"vocab_size"`
-		ContextSize   uint64  `json:"context_size"`
-		EmbeddingSize uint64  `json:"embedding_size"`
-		MinVRAMSize   uint64  `json:"min_vram_size"`
-		Finetuned     bool    `json:"finetuned"`
-		Quantized     bool    `json:"quantized"`
-		Layers        []Layer `json:"layers"`
+		DataKind      DataKind `json:"data_kind"`
+		ParamsSize    uint64   `json:"params_size"`
+		VocabSize     uint32   `json:"vocab_size"`
+		ContextSize   uint64   `json:"context_size"`
+		EmbeddingSize uint64   `json:"embedding_size"`
+		MinVRAMSize   uint64   `json:"min_vram_size"`
+		Finetuned     bool     `json:"finetuned"`
+		Quantized     bool     `json:"quantized"`
+		Layers        []Layer  `json:"layers"`
 	}
 
 	// Inference represents a model inference.
@@ -170,77 +174,102 @@ type (
 
 	// InferenceSpec represents a model inference specification.
 	InferenceSpec struct {
-		ObjectMeta `json:",inline"`
-		// History describes the history of each assembler step.
-		History       []History          `json:"history"`
-		Architectures []Architecture     `json:"architectures"`
-		Variants      []InferenceVariant `json:"variants"`
-		Run           Run                `json:"run"`
+		ObjectMeta   `json:",inline"`
+		Architecture Architecture       `json:"architecture"`
+		Variants     []InferenceVariant `json:"variants"`
 	}
 
 	// InferenceVariant represents a model inference variant.
 	InferenceVariant struct {
-		Platform Platform `json:"platform"`
-		Layers   []Layer  `json:"layers"`
+		// History describes the history of each assembler step.
+		History  []History `json:"history"`
+		Platform Platform  `json:"platform"`
+		Layers   []Layer   `json:"layers"`
+		Run      Run       `json:"run"`
 	}
 
-	// Layer is
+	// Layer is a layer of an object.
 	Layer struct {
-		Name        string        `json:"name"`
-		Description string        `json:"description"`
-		MediaType   string        `json:"media_type"`
-		Size        uint64        `json:"size"`
-		Digest      digest.Digest `json:"digest"`
+		Named     `json:",inline"`
+		MediaType string        `json:"media_type"`
+		Size      uint64        `json:"size"`
+		Digest    digest.Digest `json:"digest"`
 	}
 
 	// History describes the history of assembler steps.
 	History struct {
-		// Created is the combined date and time at which was created, formatted as defined by RFC 3339, section 5.6.
-		Created *time.Time `json:"created,omitempty"`
-
-		// CreatedBy is the command which created.
-		CreatedBy string `json:"created_by,omitempty"`
-
-		// Comment is a custom message.
-		Comment string `json:"comment,omitempty"`
+		Created   *time.Time `json:"created,omitempty"`
+		CreatedBy string     `json:"created_by,omitempty"`
+		Comment   string     `json:"comment,omitempty"`
 	}
 
 	// Run defines the execution parameters which should be used when running a command.
 	Run struct {
-		// Env is a list of environment variables to be used in a container.
-		Env []string `json:"Env,omitempty"`
-
-		// Cmd defines the default arguments to the entrypoint of the container.
-		Cmd []string `json:"Cmd,omitempty"`
+		Env  []string `json:"Env,omitempty"`
+		Cmd  string   `json:"Cmd"`
+		Args []string `json:"Args,omitempty"`
 	}
 
 	// Platform represents a inference process platform.
 	Platform struct {
-		// Architecture field specifies the CPU architecture, for example
-		// `amd64` or `ppc64le`.
-		Architecture string `json:"architecture"`
+		Architecture string   `json:"architecture"`
+		OS           string   `json:"os"`
+		OSVersion    string   `json:"os.version,omitempty"`
+		OSFeatures   []string `json:"os.features,omitempty"`
+		Variant      string   `json:"variant,omitempty"`
+	}
 
-		// OS specifies the operating system, for example `linux` or `windows`.
-		OS string `json:"os"`
+	// Tensor is a tensor.
+	Tensor struct {
+		device IDevice
+		kind   DataKind
+		shape  []uint64
+		data   []byte
+	}
 
-		// OSVersion is an optional field specifying the operating system
-		// version, for example on Windows `10.0.14393.1066`.
-		OSVersion string `json:"os.version,omitempty"`
+	// TensorNamed is a tensor with a name.
+	TensorNamed struct {
+		name        string
+		description string
+		Tensor
+	}
 
-		// OSFeatures is an optional field specifying an array of strings,
-		// each listing a required OS feature (for example on Windows `win32k`).
-		OSFeatures []string `json:"os.features,omitempty"`
+	// Device is a device.
+	Device struct {
+		kind        DeviceKind
+		index       int
+		name        string
+		description string
+		vendor      string
+		features    []string
+		memory      Memory
+	}
 
-		// Variant is an optional field specifying a variant of the CPU, for
-		// example `v7` to specify ARMv7 when architecture is `arm`.
-		Variant string `json:"variant,omitempty"`
+	// Memory is a memory struct.
+	Memory struct {
+		Total     uint64
+		Available uint64
+	}
+
+	// IDevice is a device interface.
+	IDevice interface {
+		Kind() Kind
+		Index() int
+		Name() string
+		Description() string
+		Vendor() string
+		Features() []string
+		Memory() Memory
+		String() string
 	}
 
 	// Architecture is a model architecture (e.g. transformer, lstm, etc.)
 	Architecture uint16
 
-	// DType is a data type of tensor (e.g. float32, int32, etc.)
-	DType uint8
+	// DataKind is a data kind of tensor (e.g. F32, I16, etc.)
+	DataKind uint8
+
+	DeviceKind uint8
 
 	// Kind is a object kind (e.g. model, inference, etc.)
 	Kind uint8
