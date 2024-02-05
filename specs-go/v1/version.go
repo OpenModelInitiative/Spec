@@ -4,9 +4,9 @@ import "fmt"
 
 const (
 	// VersionMajor is for an API incompatible changes
-	VersionMajor = 1
+	VersionMajor = 0
 	// VersionMinor is for functionality in a backwards-compatible manner
-	VersionMinor = 0
+	VersionMinor = 1
 	// VersionPatch is for backwards-compatible bug fixes
 	VersionPatch = 0
 )

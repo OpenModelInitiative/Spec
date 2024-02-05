@@ -53,23 +53,23 @@ var (
 
 	// DataKindDescriptions is a map of DataKind descriptions.
 	DataKindDescriptions = map[DataKind]string{
-		DataKindInvalid: "Invalid data type.",
-		DataKindBool:    "Represents a boolean type.",
+		DataKindInvalid: "Invalid data kind.",
+		DataKindBool:    "Represents a boolean kind.",
 		DataKindQ2:      "Represents a 2-bit quantization.",
 		DataKindQ3:      "Represents a 3-bit quantization.",
 		DataKindQ4:      "Represents a 4-bit quantization.",
-		DataKindU8:      "Represents an unsigned byte type.",
-		DataKindI8:      "Represents a signed byte type.",
-		DataKindI16:     "Represents a 16-bit signed integer type.",
-		DataKindU16:     "Represents a 16-bit unsigned integer type.",
-		DataKindBF16:    "Represents a brain (16-bit) floating point type.",
-		DataKindF16:     "Represents a half-precision (16-bit) floating point type.",
-		DataKindI32:     "Represents a 32-bit signed integer type.",
-		DataKindU32:     "Represents a 32-bit unsigned integer type.",
-		DataKindF32:     "Represents a 32-bit floating point type.",
-		DataKindI64:     "Represents a 64-bit signed integer type.",
-		DataKindU64:     "Represents a 64-bit unsigned integer type.",
-		DataKindF64:     "Represents a 64-bit floating point type.",
+		DataKindU8:      "Represents a 8-bit unsigned integer kind.",
+		DataKindI8:      "Represents a 8-bit signed integer kind.",
+		DataKindI16:     "Represents a 16-bit signed integer kind.",
+		DataKindU16:     "Represents a 16-bit unsigned integer kind.",
+		DataKindBF16:    "Represents a 16-bit brain floating point kind.",
+		DataKindF16:     "Represents a 16-bit half-precision floating point kind.",
+		DataKindI32:     "Represents a 32-bit signed integer kind.",
+		DataKindU32:     "Represents a 32-bit unsigned integer kind.",
+		DataKindF32:     "Represents a 32-bit floating point kind.",
+		DataKindI64:     "Represents a 64-bit signed integer kind.",
+		DataKindU64:     "Represents a 64-bit unsigned integer kind.",
+		DataKindF64:     "Represents a 64-bit floating point kind.",
 	}
 
 	// DataKindInBits is a map of DataKind bits.

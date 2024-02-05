@@ -15,8 +15,9 @@ type (
 
 	// ObjectKind represents the object version and kind.
 	ObjectKind struct {
-		Version string `json:"version"`
 		Kind    Kind   `json:"kind"`
+		Version string `json:"version"`
+		ID      string `json:"id"`
 	}
 
 	// ObjectMeta represents the object metadata.
@@ -46,7 +47,7 @@ type (
 		Tasks      []Task     `json:"tasks"`
 		Languages  []Language `json:"languages"`
 		Layers     []Layer    `json:"layers"`
-		Run        Run        `json:"run"`
+		Entrypoint Entrypoint `json:"entrypoint"`
 	}
 
 	// TrainerAssembler represents a model trainer.
@@ -63,7 +64,7 @@ type (
 		Tasks        []Task       `json:"tasks"`
 		Languages    []Language   `json:"languages"`
 		Layers       []Layer      `json:"layers"`
-		Run          Run          `json:"run"`
+		Entrypoint   Entrypoint   `json:"entrypoint"`
 	}
 
 	// ModelAssembler represents a model assembler.
@@ -80,7 +81,7 @@ type (
 		Tasks        []Task       `json:"tasks"`
 		Languages    []Language   `json:"languages"`
 		Layers       []Layer      `json:"layers"`
-		Run          Run          `json:"run"`
+		Entrypoint   Entrypoint   `json:"entrypoint"`
 	}
 
 	// InferenceAssembler represents a model.
@@ -95,7 +96,7 @@ type (
 		ObjectMeta   `json:",inline"`
 		Architecture Architecture `json:"architecture"`
 		Layers       []Layer      `json:"layers"`
-		Run          Run          `json:"run"`
+		Entrypoint   Entrypoint   `json:"entrypoint"`
 	}
 
 	// Dataset represents a model dataset.
@@ -131,7 +132,7 @@ type (
 		Tasks        []Task       `json:"tasks"`
 		Languages    []Language   `json:"languages"`
 		Layers       []Layer      `json:"layers"`
-		Run          Run          `json:"run"`
+		Entrypoint   Entrypoint   `json:"entrypoint"`
 	}
 
 	// Model represents a model.
@@ -182,10 +183,16 @@ type (
 	// InferenceVariant represents a model inference variant.
 	InferenceVariant struct {
 		// History describes the history of each assembler step.
-		History  []History `json:"history"`
-		Platform Platform  `json:"platform"`
-		Layers   []Layer   `json:"layers"`
-		Run      Run       `json:"run"`
+		History    []History  `json:"history"`
+		Platform   Platform   `json:"platform"`
+		Layers     []Layer    `json:"layers"`
+		Entrypoint Entrypoint `json:"entrypoint"`
+	}
+
+	// Architecture represents a model architecture.
+	Architecture struct {
+		Kind    ArchitectureKind `json:"kind"`
+		Version string           `json:"version"`
 	}
 
 	// Layer is a layer of an object.
@@ -203,8 +210,8 @@ type (
 		Comment   string     `json:"comment,omitempty"`
 	}
 
-	// Run defines the execution parameters which should be used when running a command.
-	Run struct {
+	// Entrypoint defines the execution parameters which should be used when running a command.
+	Entrypoint struct {
 		Env  []string `json:"Env,omitempty"`
 		Cmd  string   `json:"Cmd"`
 		Args []string `json:"Args,omitempty"`
@@ -263,8 +270,8 @@ type (
 		String() string
 	}
 
-	// Architecture is a model architecture (e.g. transformer, lstm, etc.)
-	Architecture uint16
+	// ArchitectureKind is a model architecture (e.g. transformer, lstm, etc.)
+	ArchitectureKind uint16
 
 	// DataKind is a data kind of tensor (e.g. F32, I16, etc.)
 	DataKind uint8
