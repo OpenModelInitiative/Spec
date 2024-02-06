@@ -8,31 +8,46 @@ import (
 // DeviceKind is the device kind for memory allocation.
 const (
 	DeviceKindInvalid DeviceKind = iota //
+	DeviceKindBPU
 	DeviceKindCPU
+	DeviceKindDPU
+	DeviceKindFPU
+	DeviceKindFPGA
 	DeviceKindGPU
+	DeviceKindIPU
 	DeviceKindNPU
 	DeviceKindTPU
-	DeviceKindFPGA
+	DeviceKindVPU
 )
 
 var (
 	// DeviceKindNames is a map of DeviceKind names.
 	DeviceKindNames = map[DeviceKind]string{
 		DeviceKindInvalid: "Invalid",
+		DeviceKindBPU:     "BPU",
 		DeviceKindCPU:     "CPU",
+		DeviceKindDPU:     "DPU",
+		DeviceKindFPU:     "FPU",
+		DeviceKindFPGA:    "FPGA",
 		DeviceKindGPU:     "GPU",
+		DeviceKindIPU:     "IPU",
 		DeviceKindNPU:     "NPU",
 		DeviceKindTPU:     "TPU",
-		DeviceKindFPGA:    "FPGA",
+		DeviceKindVPU:     "VPU",
 	}
 
 	// DeviceKindDescriptions is a map of DeviceKind names.
 	DeviceKindDescriptions = map[DeviceKind]string{
+		DeviceKindBPU:  "Brain Processing Unit",
 		DeviceKindCPU:  "Central Processing Unit",
+		DeviceKindDPU:  "Data Processing Unit",
+		DeviceKindFPU:  "Floating Processing Unit,",
+		DeviceKindFPGA: "Field-Programmable Gate Array",
 		DeviceKindGPU:  "Graphics Processing Unit",
+		DeviceKindIPU:  "Intelligent Processing Unit",
 		DeviceKindNPU:  "Neural Processing Unit",
 		DeviceKindTPU:  "Tensor Processing Unit",
-		DeviceKindFPGA: "Field-Programmable Gate Array",
+		DeviceKindVPU:  "Vector Processing Unit",
 	}
 )
 
